@@ -16,7 +16,6 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     public Optional<User> findByEmail(String email){
         LambdaQueryWrapper<User> qw = new LambdaQueryWrapper<>();
         qw.eq(User::getEmail, email);
-        qw.last("limit 1");
         User user = baseMapper.selectOne(qw);
         return Optional.ofNullable(user);
     }

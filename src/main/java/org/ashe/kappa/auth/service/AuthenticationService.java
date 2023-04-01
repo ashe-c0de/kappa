@@ -3,6 +3,7 @@ package org.ashe.kappa.auth.service;
 import lombok.RequiredArgsConstructor;
 import org.ashe.kappa.auth.conf.JwtService;
 import org.ashe.kappa.auth.model.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,11 +20,8 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = new User();
-        user.setFirstname(request.getFirstname());
-        user.setLastname(request.getLastname());
-        user.setEmail(request.getEmail());
+        BeanUtils.copyProperties(request, user);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.USER);
         userService.save(user);
         // register success, issue token
         var jwtToken = jwtService.generateToken(user);
