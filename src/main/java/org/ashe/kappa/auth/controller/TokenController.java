@@ -19,7 +19,7 @@ public class TokenController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> userList() {
-        return ResponseEntity.ok(userService.userList().orElseThrow());
+        return ResponseEntity.ok(userService.userList());
     }
 
 }

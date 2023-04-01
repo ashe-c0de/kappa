@@ -1,7 +1,7 @@
 package org.ashe.kappa.auth.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.ashe.kappa.auth.mapper.UserMapper;
@@ -22,8 +22,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return Optional.ofNullable(user);
     }
 
-    public Optional<List<User>> userList() {
-        List<User> users = baseMapper.selectList(new QueryWrapper<>());
-        return Optional.ofNullable(users);
+    public List<User> userList() {
+        return baseMapper.selectList(Wrappers.emptyWrapper());
     }
 }
