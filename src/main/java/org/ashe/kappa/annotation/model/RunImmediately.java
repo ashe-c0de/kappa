@@ -1,4 +1,4 @@
-package org.ashe.kappa.john.model;
+package org.ashe.kappa.annotation.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,9 +1,9 @@
-package org.ashe.kappa.john.battlefield;
+package org.ashe.kappa.annotation.battlefield;
 
-import org.ashe.kappa.john.model.Cat;
-import org.ashe.kappa.john.model.ImportantString;
-import org.ashe.kappa.john.model.RunImmediately;
-import org.ashe.kappa.john.model.VeryImportant;
+import org.ashe.kappa.annotation.model.Cat;
+import org.ashe.kappa.annotation.model.ImportantString;
+import org.ashe.kappa.annotation.model.RunImmediately;
+import org.ashe.kappa.annotation.model.VeryImportant;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
