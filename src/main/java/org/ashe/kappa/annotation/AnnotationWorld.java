@@ -1,9 +1,4 @@
-package org.ashe.kappa.annotation.battlefield;
-
-import org.ashe.kappa.annotation.model.Cat;
-import org.ashe.kappa.annotation.model.ImportantString;
-import org.ashe.kappa.annotation.model.RunImmediately;
-import org.ashe.kappa.annotation.model.VeryImportant;
+package org.ashe.kappa.annotation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

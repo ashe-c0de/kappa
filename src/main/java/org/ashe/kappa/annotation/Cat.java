@@ -1,4 +1,4 @@
-package org.ashe.kappa.annotation.model;
+package org.ashe.kappa.annotation;
 
 @VeryImportant
 public class Cat {
