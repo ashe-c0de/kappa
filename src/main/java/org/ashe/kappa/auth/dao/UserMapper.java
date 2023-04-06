@@ -1,4 +1,4 @@
-package org.ashe.kappa.auth.mapper;
+package org.ashe.kappa.auth.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

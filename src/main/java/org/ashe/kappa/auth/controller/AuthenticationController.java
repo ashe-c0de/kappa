@@ -2,7 +2,6 @@ package org.ashe.kappa.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.ashe.kappa.auth.model.AuthenticationRequest;
-import org.ashe.kappa.auth.model.AuthenticationResponse;
 import org.ashe.kappa.auth.model.RegisterRequest;
 import org.ashe.kappa.auth.service.AuthenticationService;
 import org.ashe.kappa.infra.Response;
@@ -22,7 +21,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<Response> authenticate(@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }
 
