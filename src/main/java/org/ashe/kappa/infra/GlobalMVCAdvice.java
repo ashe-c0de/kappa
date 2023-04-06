@@ -22,7 +22,7 @@ public class GlobalMVCAdvice {
         // 通知运维
         // 通知开发
         log.error(String.format("======== %s ========", e.getClass().toString()), e);
-        return ResponseEntity.status(520).body(e.getMessage());
+        return ResponseEntity.status(521).body(e.getMessage());
     }
 
 }
