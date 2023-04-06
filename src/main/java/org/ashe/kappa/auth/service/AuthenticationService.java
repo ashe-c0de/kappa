@@ -29,7 +29,7 @@ public class AuthenticationService {
     public Response register(RegisterRequest request) {
         Optional<User> optional = userService.findByEmail(request.getEmail());
         if (optional.isPresent()) {
-            throw new ServiceException("email taken");
+            throw new ServiceException("email was taken");
         }
         User user = new User();
         BeanUtils.copyProperties(request, user);
