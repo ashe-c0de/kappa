@@ -1,7 +1,6 @@
 package org.ashe.kappa.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import org.ashe.kappa.auth.conf.JwtService;
 import org.ashe.kappa.auth.dao.UserRepository;
 import org.ashe.kappa.auth.model.AuthenticationRequest;
 import org.ashe.kappa.auth.model.RegisterRequest;

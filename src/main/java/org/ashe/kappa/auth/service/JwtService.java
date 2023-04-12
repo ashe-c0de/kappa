@@ -1,4 +1,4 @@
-package org.ashe.kappa.auth.conf;
+package org.ashe.kappa.auth.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
