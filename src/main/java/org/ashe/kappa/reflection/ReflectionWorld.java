@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
  * 对于任意一个对象，都能够调用它的任意一个方法
  * 反射存在效率问题
  */
+@SuppressWarnings("all")
 public class ReflectionWorld {
 
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException {
