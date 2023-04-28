@@ -5,8 +5,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.servlet.http.HttpServletRequest;
+import org.ashe.kappa.auth.model.Role;
+import org.ashe.kappa.auth.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.security.Key;
 import java.util.Date;
@@ -25,9 +30,14 @@ public class JwtService {
      * then you get --> SECRET_KEY
      */
     private static final String SECRET_KEY = "6D5970337336763979244226452948404D635166546A576E5A7234743777217A";
+    private static final String ROLE = "role";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+    public String extractRole() {
+        Claims claims = extractAllClaims(getToken());
+        return (String) claims.get(ROLE);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -35,25 +45,26 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(User user){
+        return generateToken(new HashMap<>(), user);
     }
 
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> extraClaims, User user) {
+        extraClaims.put(ROLE, user.getRole());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails){
+    public boolean isTokenValid(String token, User user){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(user.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
@@ -77,5 +88,11 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String getToken() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String authorization = request.getHeader("Authorization");
+        return StringUtils.startsWithIgnoreCase(authorization, "Bearer ") ? authorization.substring(7) : null;
     }
 }
