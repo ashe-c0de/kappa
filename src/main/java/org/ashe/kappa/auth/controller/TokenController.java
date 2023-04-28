@@ -1,6 +1,8 @@
 package org.ashe.kappa.auth.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.ashe.kappa.annotation.Auth;
+import org.ashe.kappa.auth.model.Role;
 import org.ashe.kappa.auth.model.User;
 import org.ashe.kappa.auth.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ public class TokenController {
     private final UserService userService;
 
     @GetMapping("/users")
+    @Auth(Role.ADMIN)
     public ResponseEntity<List<User>> userList() {
         return ResponseEntity.ok(userService.userList());
     }
