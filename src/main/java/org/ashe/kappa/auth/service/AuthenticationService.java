@@ -9,7 +9,6 @@ import org.ashe.kappa.auth.model.User;
 import org.ashe.kappa.auth.model.VerifyCodeRequest;
 import org.ashe.kappa.infra.RedisKey;
 import org.ashe.kappa.infra.RegexUtil;
-import org.ashe.kappa.infra.Response;
 import org.ashe.kappa.infra.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -35,7 +34,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
-    public Response register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         Optional<User> optional = userService.findByEmail(request.getEmail());
         if (optional.isPresent()) {
             throw new ServiceException("email was taken");
@@ -45,14 +44,13 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         // register success, issue token
-        var jwtToken = jwtService.generateToken(user);
-        return Response.ok(jwtToken);
+        return jwtService.generateToken(user);
     }
 
     /**
      * authenticate password
      */
-    public Response authenticate(AuthenticationRequest request) {
+    public String authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -62,14 +60,13 @@ public class AuthenticationService {
         var user = userService.findByEmail(request.getEmail())
                 .orElseThrow();
         // authenticate success, issue token
-        var jwtToken = jwtService.generateToken(user);
-        return Response.ok(jwtToken);
+        return jwtService.generateToken(user);
     }
 
     /**
      * authenticate verify code
      */
-    public Response authenticate(VerifyCodeRequest request) {
+    public String authenticate(VerifyCodeRequest request) {
         String verifyCode = redisTemplate.opsForValue().get(RedisKey.getRedisKey(RedisKey.VERIFY_CODE, request.getEmail()));
         Assert.isTrue(request.getVerifyCode().equals(verifyCode), "verify code is expired or invalid");
         // email should be registered
@@ -79,16 +76,15 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         String username = jwtService.extractUsername(jwtToken);
         log.info(String.format("%s login -->", username));
-        return Response.ok(jwtToken);
+        return jwtToken;
     }
 
-    public Response sendVerifyCode(String email) {
+    public void sendVerifyCode(String email) {
         RegexUtil.assertEmail(email);
         // verify code ------ 6-digit random number
         String str = Integer.toString(UUID.randomUUID().hashCode());
         String verifyCode = str.substring(str.length() - 6);
         log.info(String.format("verify code is --> %s", verifyCode));
         redisTemplate.opsForValue().set(RedisKey.getRedisKey(RedisKey.VERIFY_CODE, email), verifyCode, 5, TimeUnit.MINUTES);
-        return Response.ok();
     }
 }

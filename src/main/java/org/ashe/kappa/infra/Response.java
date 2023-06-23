@@ -38,7 +38,7 @@ public class Response {
      * 失败响应
      * @param msg 错误提示
      */
-    public static Response no(String msg) {
+    public static Response wrong(String msg) {
         return new Response(false, msg, null);
     }
 

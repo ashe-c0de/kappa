@@ -5,7 +5,6 @@ import org.ashe.kappa.auth.model.AuthenticationRequest;
 import org.ashe.kappa.auth.model.RegisterRequest;
 import org.ashe.kappa.auth.model.VerifyCodeRequest;
 import org.ashe.kappa.auth.service.AuthenticationService;
-import org.ashe.kappa.infra.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,23 +21,24 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Response> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Response> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }
 
     @PostMapping("/authenticate2")
-    public ResponseEntity<Response> authenticate(@RequestBody VerifyCodeRequest request){
+    public ResponseEntity<String> authenticate(@RequestBody VerifyCodeRequest request){
         return ResponseEntity.ok(service.authenticate(request));
     }
 
-    @PostMapping("/verify_code/{email}")
-    public ResponseEntity<Response> sendVerifyCode(@PathVariable String email) {
-        return ResponseEntity.ok(service.sendVerifyCode(email));
+    @PostMapping("/{email}")
+    public ResponseEntity<Void> sendVerifyCode(@PathVariable String email) {
+        service.sendVerifyCode(email);
+        return ResponseEntity.ok().build();
     }
 
 }
