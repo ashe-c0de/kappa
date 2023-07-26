@@ -80,6 +80,12 @@
             <version>4.1.94.Final</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.0-RC1</version>
+        </dependency>
 
     </dependencies>
 
