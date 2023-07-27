@@ -76,15 +76,15 @@ public class RsaEncryptor {
         String plaintext = "hell0 world";
         // 加密
         String ciphertext = RsaEncryptor.encrypt(plaintext, publicKey);
-        log.info(ciphertext);
+        log.info("密文--> " + ciphertext);
         // 解密
         String decryptedMessage = RsaEncryptor.decrypt(ciphertext, privateKey);
-        log.info(decryptedMessage);
+        log.info("原文--> " + decryptedMessage);
         // 将公钥和私钥编码为 Base64 字符串并输出
         String publicKeyString = Base64.getEncoder().encodeToString(publicKey.getEncoded());
-        log.info(publicKeyString);
+        log.info("公钥Base64字符串--> " + publicKeyString);
         String privateKeyString = Base64.getEncoder().encodeToString(privateKey.getEncoded());
-        log.info(privateKeyString);
+        log.info("私钥Base64字符串--> " + privateKeyString);
     }
 
 }
